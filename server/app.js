@@ -27,6 +27,5 @@ app.get('/getAll', (request,response)=>{
 })
 
 //uptade
-console.log(process.env.PORT)
 //delete
 app.listen(process.env.PORT,()=>console.log('app is running'));
