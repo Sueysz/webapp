@@ -29,6 +29,19 @@ class DbService {
             console.log(error);
         }
     }
+
+    async insertNewName(name) {
+        try{
+            const dateAdded = new Date();
+            const connection = await pool.getConnection();
+            const [rows] = await connection.execute('INSERT INTO names (name,date_added) VALUES (?, ?);',[name,dateAdded]);
+            connection.release();
+            console.log(rows.insertId);
+            return rows.insertId;
+        }catch(error){
+            console.log(error)
+        }
+    }
 }
 
 module.exports = DbService;

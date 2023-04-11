@@ -13,6 +13,14 @@ app.use(express.urlencoded({ extended : false}));
 //create
 app.post('/insert', (request,response)=>{
 
+    const {name} =request.body;
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.insertNewName(name);
+    result
+    .then(data => response.json({success:true}))
+    .catch(err => console.log(err));
+
 });
 
 //read
@@ -27,5 +35,7 @@ app.get('/getAll', (request,response)=>{
 })
 
 //uptade
+
+
 //delete
 app.listen(process.env.PORT,()=>console.log('app is running'));
