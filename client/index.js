@@ -26,7 +26,32 @@ addBtn.onclick = ()=>{
 }
 
 const insertRowIntoTable=(data)=>{
+    const table = document.querySelector('table tbody');
+    const isTableData = table.querySelector('.no-data');
 
+    let tableHtml = "<tr>";
+
+    for(const key in data){
+        if(data.hasOwnProperty(key)){
+            if(key ==='dateAdded'){
+                data[key] =new Date(data[key].toDateString());
+            }
+            tableHtml += `<td>${data[key]}</td>`
+        }
+    }
+
+        tableHtml +=`<td><button class="delete-row-btn" data-id ${data.id}>Delete</td>`;
+        tableHtml +=`<td><button class="edit-row-btn" data-id ${data.id}>Edit</td></td>`;
+
+
+    tableHtml +=" </tr>"
+
+    if(isTableData){
+        table.innerHTML = tableHtml;
+    }else{
+        const newRow = table.insertRow();
+        newRow.innerHTML = tableHtml;
+    }
 }
 
 const loadHTMLTable =(data)=>{
