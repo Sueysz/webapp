@@ -10,16 +10,21 @@ document.querySelector('table tbody').addEventListener('click', (event) => {
     }
 });
 
-const deleteRowById = (id) => {
-    fetch('http://localhost:5000/delete/' + id, {
-        method: 'DELETE'
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log('DELETE CALLED', data)
-            loadHTMLTable();
+// const deleteRowById = (id) => {
+//     fetch('http://localhost:5000/delete/' + id, {
+//         method: 'DELETE'
+//     })
+//         .then(data => {
+//             loadHTMLTable();
             
-        });
+//         });
+// }
+const deleteRowById = async (id) => {
+    await fetch('http://localhost:5000/delete/' + id, {
+        method: 'DELETE'
+    });
+
+    loadHTMLTable();
 }
 
 
@@ -75,29 +80,27 @@ const insertRowIntoTable = (data) => {
     }
 }
 
-const loadHTMLTable = () => {
-    fetch('http://localhost:5000/getAll')
-        .then(response => response.json())
-        .then(data => {
-            const table = document.querySelector('table tbody');
-            console.log(data["data"].length)
-            if (data['data'].length === 0) {
-                table.innerHTML = "<tr><td class='no-data' colspan='5'>No Data</td></tr>";
-                return;
-            }
+const loadHTMLTable = async () => {
+    const response = await fetch('http://localhost:5000/getAll')
+    const data = await response.json()
+    const table = document.querySelector('table tbody');
+    console.log(data["data"].length)
+    if (data['data'].length === 0) {
+        table.innerHTML = "<tr><td class='no-data' colspan='5'>No Data</td></tr>";
+        return;
+    }
 
-            let tableHtml = "";
+    let tableHtml = "";
 
-            data['data'].forEach(({ id, name, date_added }) => {
-                tableHtml += "<tr>";
-                tableHtml += `<td>${id}</td>`;
-                tableHtml += `<td>${name}</td>`;
-                tableHtml += `<td>${new Date(date_added).toLocaleDateString()}</td>`;
-                tableHtml += `<td><button class="delete-row-btn" data-id=${id}>Delete</td>`;
-                tableHtml += `<td><button class="edit-row-btn" data-id=${id}>Edit</td></td>`;
-                tableHtml += "</tr>";
-            });
+    data['data'].forEach(({ id, name, date_added }) => {
+        tableHtml += "<tr>";
+        tableHtml += `<td>${id}</td>`;
+        tableHtml += `<td>${name}</td>`;
+        tableHtml += `<td>${new Date(date_added).toLocaleDateString()}</td>`;
+        tableHtml += `<td><button class="delete-row-btn" data-id=${id}>Delete</td>`;
+        tableHtml += `<td><button class="edit-row-btn" data-id=${id}>Edit</td></td>`;
+        tableHtml += "</tr>";
+    });
 
-            table.innerHTML = tableHtml;
-        });
+    table.innerHTML = tableHtml;
 }
