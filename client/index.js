@@ -16,6 +16,7 @@ const deleteRowById = (id) => {
     })
         .then(response => response.json())
         .then(data => {
+            console.log('DELETE CALLED', data)
             loadHTMLTable();
             
         });
@@ -79,7 +80,7 @@ const loadHTMLTable = () => {
         .then(response => response.json())
         .then(data => {
             const table = document.querySelector('table tbody');
-
+            console.log(data["data"].length)
             if (data['data'].length === 0) {
                 table.innerHTML = "<tr><td class='no-data' colspan='5'>No Data</td></tr>";
                 return;

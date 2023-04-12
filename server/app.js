@@ -37,8 +37,12 @@ app.delete('/delete/:id', (request, response) => {
     const { id } = request.params;
     const db = DbService.getDbServiceInstance();
     const result = db.deleteRowById(id);
+    console.log("result in delete", result)
     result
-        .then(data => response.json({ success: true }))
+        .then(data => {
+            console.log("RESULT DATA = ", data);
+            response.json({ success: true });
+        })
         .catch(err => console.log(err));
 });
 
