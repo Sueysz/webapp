@@ -32,6 +32,19 @@ app.get('/getAll', (request, response) => {
 
 // Update
 
+app.patch('/update', async (request, response) => {
+    const db = DbService.getDbServiceInstance();
+    const { id, name } = request.body;
+    try {
+        const result = await db.updateNameById(id, name);
+        response.json({ success: true });
+    } catch (error) {
+        
+        console.error(error);
+        response.status(500).json({ error: 'Could not update name' });
+    }
+});
+
 // Delete
 app.delete('/delete/:id', (request, response) => {
     const { id } = request.params;

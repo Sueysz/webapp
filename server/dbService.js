@@ -28,6 +28,7 @@ class DbService {
             console.log(error);
         }
     }
+    
 
     async insertNewName(name) {
         try{
@@ -47,6 +48,18 @@ class DbService {
             const connection = await pool.getConnection();
             await connection.execute('DELETE FROM names WHERE id = ?', [id]);
             connection.release();
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    async updateNameById(id,name){
+        try{
+            id = parseInt(id, 10);
+            const connection = await pool.getConnection();
+            const result = await connection.execute("UPDATE names SET name = ? WHERE id = ?", [name, id]);
+            connection.release();
+            return result;
         }catch(error){
             console.log(error);
         }
