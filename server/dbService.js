@@ -64,5 +64,16 @@ class DbService {
             console.log(error);
         }
     }
+
+    async searchByName(name){
+        try{
+            const connection = await pool.getConnection();
+            const [rows] = await connection.execute('SELECT * FROM names WHERE name = ?',[name]);
+            connection.release();
+            return rows;
+        } catch(error){
+            console.log(error);
+        }
+    }
 }
 module.exports = DbService;

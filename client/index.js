@@ -15,6 +15,18 @@ document.querySelector('table tbody').addEventListener('click', (event) => {
 });
 
 const updateBtn = document.querySelector('#update-row-btn');
+const searchBtn = document.querySelector('#search-btn');
+
+searchBtn.onclick = async () => {
+    const searchValue = document.querySelector('#search-input').value;
+    try {
+        const response = await fetch('http://localhost:5000/search/' + searchValue);
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error(error);
+    }
+};
 
 // const deleteRowById = (id) => {
 //     fetch('http://localhost:5000/delete/' + id, {
