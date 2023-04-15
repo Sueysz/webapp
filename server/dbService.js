@@ -68,7 +68,7 @@ class DbService {
     async searchByName(name){
         try{
             const connection = await pool.getConnection();
-            const [rows] = await connection.execute('SELECT * FROM names WHERE name = ?',[name]);
+            const [rows] = await connection.execute('SELECT * FROM names WHERE name LIKE ?', [`%${name}%`]);
             connection.release();
             return rows;
         } catch(error){

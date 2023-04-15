@@ -23,6 +23,7 @@ searchBtn.onclick = async () => {
         const response = await fetch('http://localhost:5000/search/' + searchValue);
         const data = await response.json();
         console.log(data);
+        loadHTMLTable(data.data.map(row => row.id))
     } catch (error) {
         console.error(error);
     }
@@ -127,9 +128,18 @@ const insertRowIntoTable = (data) => {
     }
 }
 
-const loadHTMLTable = async () => {
+const loadHTMLTable = async (select) => {
     const response = await fetch('http://localhost:5000/getAll')
-    const data = await response.json()
+    let data = await response.json()
+    console.log('data', data);
+    if (select) {
+        data = {
+            data: data.data.filter((row) => {
+                return select.includes(row.id)
+            })
+        };
+    }
+    console.log('filtered data', data);
     const table = document.querySelector('table tbody');
     console.log(data["data"].length)
     if (data['data'].length === 0) {
