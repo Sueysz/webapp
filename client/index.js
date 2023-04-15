@@ -130,26 +130,25 @@ const insertRowIntoTable = (data) => {
 
 const loadHTMLTable = async (select) => {
     const response = await fetch('http://localhost:5000/getAll')
-    let data = await response.json()
+    const data = await response.json()
     console.log('data', data);
+    let tableInformations = data.data;
     if (select) {
-        data = {
-            data: data.data.filter((row) => {
-                return select.includes(row.id)
-            })
-        };
+        tableInformations = tableInformations.filter((row) => {
+            return select.includes(row.id)
+        });
     }
-    console.log('filtered data', data);
+    console.log('filtered tableInformations', tableInformations);
     const table = document.querySelector('table tbody');
-    console.log(data["data"].length)
-    if (data['data'].length === 0) {
+    console.log(tableInformations.length)
+    if (tableInformations.length === 0) {
         table.innerHTML = "<tr><td class='no-data' colspan='5'>No Data</td></tr>";
         return;
     }
 
     let tableHtml = "";
 
-    data['data'].forEach(({ id, name, date_added }) => {
+    tableInformations.forEach(({ id, name, date_added }) => {
         tableHtml += "<tr>";
         tableHtml += `<td>${id}</td>`;
         tableHtml += `<td>${name}</td>`;
