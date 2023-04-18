@@ -23,21 +23,13 @@ searchBtn.onclick = async () => {
         const response = await fetch('http://localhost:5000/search/' + searchValue);
         const data = await response.json();
         console.log(data);
-        loadHTMLTable(data.data.map(row => row.id))
+        const searchResult = data.data;
+        loadHTMLTable(searchResult.map(row => row.id))
     } catch (error) {
         console.error(error);
     }
 };
 
-// const deleteRowById = (id) => {
-//     fetch('http://localhost:5000/delete/' + id, {
-//         method: 'DELETE'
-//     })
-//         .then(data => {
-//             loadHTMLTable();
-
-//         });
-// }
 const deleteRowById = async (id) => {
     await fetch('http://localhost:5000/delete/' + id, {
         method: 'DELETE'
@@ -81,22 +73,19 @@ updateBtn.onclick = async () => {
 const addBtn = document.querySelector('#add-name-btn');
 
 
-addBtn.onclick = () => {
+addBtn.onclick = async () => {
     const nameInput = document.querySelector('#name-input');
     const name = nameInput.value;
     nameInput.value = "";
 
-    fetch('http://localhost:5000/insert', {
+    await fetch('http://localhost:5000/insert', {
         headers: {
             'Content-type': 'application/json'
         },
         method: 'POST',
         body: JSON.stringify({ name: name })
     })
-        .then(response => response.json())
-        .then(data => {
-            loadHTMLTable();
-        });
+    loadHTMLTable();
 }
 
 

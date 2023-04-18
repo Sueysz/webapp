@@ -34,11 +34,13 @@ class DbService {
         try{
             const dateAdded = new Date();
             const connection = await pool.getConnection();
+
             const [rows] = await connection.execute('INSERT INTO names (name,date_added) VALUES (?, ?);',[name,dateAdded]);
             connection.release();
             return rows.insertId;
         }catch(error){
-            console.log(error)
+            console.
+            console.error(error)
         }
     }
     
