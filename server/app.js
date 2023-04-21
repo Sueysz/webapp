@@ -1,5 +1,8 @@
 const express = require('express');
 const app = express();
+const bcrypt =require('bcrypt')
+const passport =require('passport')
+
 const cors = require('cors');
 const dotenv = require('dotenv');
 dotenv.config();
